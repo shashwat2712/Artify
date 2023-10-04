@@ -15,8 +15,9 @@ class Post extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Container(
-      
+
       decoration: BoxDecoration(
+
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: Colors.white,
         boxShadow: [
@@ -24,6 +25,7 @@ class Post extends StatelessWidget{
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
               blurRadius: 4,
+
 
           )
         ]
@@ -51,12 +53,16 @@ class Post extends StatelessWidget{
             Text(content, style: TextStyle(fontFamily: 'Opensans', fontWeight: FontWeight.w500),),
             const SizedBox(height: 10, width: double.infinity,),
             Container(
+              width: double.infinity,
+                constraints: BoxConstraints(minHeight: 100, maxHeight: 200),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(10))
               ),
                 child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
-                    child: Image(image: NetworkImage(imageSrc)))
+                    child: Image(
+                      image: NetworkImage(imageSrc),
+                      fit: BoxFit.cover,))
             ),
             const SizedBox(height: 10, width: double.infinity,),
             Row(

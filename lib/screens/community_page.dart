@@ -92,17 +92,20 @@ class _CommunityPageState extends State<CommunityPage> {
                         // What's next in the schedule
                         Expanded(
                           child: Column(
-
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              const Text("Let's Explore",
-                                style:  TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20.0
+                              Container(
 
-                                ),),
-                              SizedBox(height: 12,),
+                                child: Center(
+                                  child: const Text("Let's Explore",
+                                    style:  TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20.0
 
-                              SizedBox(height: 12,),
+                                    ),),
+                                ),
+                              ),
+                              SizedBox(height: 40,),
                               Container(
                                 padding: EdgeInsets.all(12.0),
                                 decoration: BoxDecoration(

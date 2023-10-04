@@ -61,84 +61,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
                     color: Colors.white,
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(40.0),topRight: Radius.circular(40.0)),
                   ),
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Column(
-                        children: [
-                          SizedBox(height: size.height/20,),
-                           MyListTile(
-                              icon: Icons.camera, text: 'Post Image To Community', endIcon: Icons.arrow_forward_ios_outlined,
-                              onTap: () async {
-                                ImagePicker imagePicker = ImagePicker();
-                                XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
-
-                                print('${file?.path}');
-
-
-                                if(file == null){
-                                  return;
-                                }
-                                if(!mounted)return;
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context)=>CommunityPostPreview(file)
-                                    )
-                                );
-                              },
-                          ),
-
-                          SizedBox(height: size.height/20,),
-
-                           MyListTile(
-                              icon: Icons.document_scanner, text: 'Pick from Gallery', endIcon: Icons.arrow_forward_ios_outlined,
-                            onTap: () async {
-                              ImagePicker imagePicker = ImagePicker();
-                              XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
-
-                              if(file == null){
-                                return;
-                              }
-                              final uid = supabase.auth.currentUser!.id;
-                              if(uid.isEmpty)return;
-                              try{
-                                await supabase.storage
-                                    .from('images')
-                                    .upload(
-                                    '$uid/${file.name}',
-                                    File(file.path));
-                              }
-                              catch(error){
-                                if(!mounted)return;
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(content: Text('Error Please try again'))
-                                );
-                              }
-                              try{
-                                final publicUrl = supabase
-                                    .storage
-                                    .from('images')
-                                    .getPublicUrl('$uid/${file.name}');
-
-                                await supabase.from('chats_ID').insert({
-
-                                });
-                              }
-                              catch(error){
-                                if(!mounted)return;
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text('message${error.toString()}'))
-                                );
-                              }
-                              if(!mounted)return;
-                              Navigator.pop(context);
-
-                            },
-                          ),
-
-                          SizedBox(height: size.height/20),
-
-                          MyListTile(
-                              icon: Icons.tag, text: 'Post Image To Marketplace', endIcon: Icons.arrow_forward_ios_outlined,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 20,),
+                         MyListTile(
+                            icon: Icons.camera, text: 'Post to community', endIcon: Icons.arrow_forward_ios_outlined,
                             onTap: () async {
                               ImagePicker imagePicker = ImagePicker();
                               XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
@@ -151,24 +80,92 @@ class _AddPostScreenState extends State<AddPostScreen> {
                               }
                               if(!mounted)return;
                               Navigator.push(context,
-                                  MaterialPageRoute(builder: (context)=>AuctionPreview(file)
+                                  MaterialPageRoute(builder: (context)=>CommunityPostPreview(file)
                                   )
                               );
                             },
-                          ),
+                        ),
 
-                          SizedBox(height: size.height/20),
+                        SizedBox(height: 20,),
 
-                          const MyListTile(icon: Icons.style, text: 'Style', endIcon: Icons.arrow_forward_ios_outlined),
+                         MyListTile(
+                            icon: Icons.document_scanner, text: 'Pick from gallery', endIcon: Icons.arrow_forward_ios_outlined,
+                          onTap: () async {
+                            ImagePicker imagePicker = ImagePicker();
+                            XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
 
-                          const SizedBox(height: 40,),
-                          const SizedBox(height: 40,),
-                          const SizedBox(height: 25.0,),
+                            if(file == null){
+                              return;
+                            }
+                            final uid = supabase.auth.currentUser!.id;
+                            if(uid.isEmpty)return;
+                            try{
+                              await supabase.storage
+                                  .from('images')
+                                  .upload(
+                                  '$uid/${file.name}',
+                                  File(file.path));
+                            }
+                            catch(error){
+                              if(!mounted)return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Error Please try again'))
+                              );
+                            }
+                            try{
+                              final publicUrl = supabase
+                                  .storage
+                                  .from('images')
+                                  .getPublicUrl('$uid/${file.name}');
+
+                              await supabase.from('chats_ID').insert({
+
+                              });
+                            }
+                            catch(error){
+                              if(!mounted)return;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('message${error.toString()}'))
+                              );
+                            }
+                            if(!mounted)return;
+                            Navigator.pop(context);
+
+                          },
+                        ),
+
+                        SizedBox(height: 20),
+
+                        MyListTile(
+                            icon: Icons.tag, text: 'Post to marketplace', endIcon: Icons.arrow_forward_ios_outlined,
+                          onTap: () async {
+                            ImagePicker imagePicker = ImagePicker();
+                            XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
+
+                            print('${file?.path}');
+
+
+                            if(file == null){
+                              return;
+                            }
+                            if(!mounted)return;
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context)=>AuctionPreview(file)
+                                )
+                            );
+                          },
+                        ),
+
+                        SizedBox(height: 20),
+
+                        const MyListTile(icon: Icons.style, text: 'Style', endIcon: Icons.arrow_forward_ios_outlined),
+
+                        const SizedBox(height: 40,),
+                        
 
 
 
-                        ],
-                      ),
+                      ],
                     ),
                   ),
                 ))

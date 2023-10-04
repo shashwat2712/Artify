@@ -21,7 +21,7 @@ class FrostedGlassBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: borderRadiusGeometry,
+      borderRadius: BorderRadius.all(Radius.circular(10)),
       child: Container(
         width: theWidth,
         height: theHeight,
