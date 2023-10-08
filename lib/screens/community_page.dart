@@ -66,78 +66,80 @@ class _CommunityPageState extends State<CommunityPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    decoration: BoxDecoration(color: Colors.pink[100],
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //animation or picture
-                        Container(
-                          height: 125,
-                          width: 125,
-                          child: Lottie.network
-                            (
-                              'https://assets1.lottiefiles.com/packages/lf20_p9cnyffr.json',
-                              fit: BoxFit.cover,
-                              alignment: Alignment.centerLeft
-                          ),
-                        ),
-                        SizedBox(width: 20,),
-
-                        // What's next in the schedule
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-
-                                child: Center(
-                                  child: const Text("Let's Explore",
-                                    style:  TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 20.0
-
-                                    ),),
-                                ),
-                              ),
-                              SizedBox(height: 40,),
-                              Container(
-                                padding: EdgeInsets.all(12.0),
-                                decoration: BoxDecoration(
-                                    color: Colors.deepPurple[300],
-                                    borderRadius: BorderRadius.circular(12)
-                                ),
-                                child: Center(
-                                  child: Text('Get Started',
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16,
-                                        ),
-                                      )),
-                                ),
-                            ],
-                          ),
-                        )
-
-
-                      ],)
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              //   child: Container(
+              //       padding: const EdgeInsets.symmetric(vertical: 20.0),
+              //       decoration: BoxDecoration(color: Colors.pink[100],
+              //         borderRadius: BorderRadius.circular(20),
+              //       ),
+              //       child: Row(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           //animation or picture
+              //           Container(
+              //             height: 125,
+              //             width: 125,
+              //             child: Lottie.network
+              //               (
+              //                 'https://assets1.lottiefiles.com/packages/lf20_p9cnyffr.json',
+              //                 fit: BoxFit.cover,
+              //                 alignment: Alignment.centerLeft
+              //             ),
+              //           ),
+              //           SizedBox(width: 20,),
+              //
+              //           // What's next in the schedule
+              //           Expanded(
+              //             child: Column(
+              //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //               children: [
+              //                 Container(
+              //
+              //                   child: Center(
+              //                     child: const Text("Let's Explore",
+              //                       style:  TextStyle(
+              //                             fontWeight: FontWeight.bold,
+              //                             fontSize: 20.0
+              //
+              //                       ),),
+              //                   ),
+              //                 ),
+              //                 SizedBox(height: 40,),
+              //                 Container(
+              //                   padding: EdgeInsets.all(12.0),
+              //                   decoration: BoxDecoration(
+              //                       color: Colors.deepPurple[300],
+              //                       borderRadius: BorderRadius.circular(12)
+              //                   ),
+              //                   child: Center(
+              //                     child: Text('Get Started',
+              //                         style: TextStyle(
+              //                             fontWeight: FontWeight.bold,
+              //                             fontSize: 16,
+              //                           ),
+              //                         )),
+              //                   ),
+              //               ],
+              //             ),
+              //           )
+              //
+              //
+              //         ],)
+              //   ),
+              // ),
               const SizedBox(height: 20,),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: Text('Find People',
                   style: TextStyle(
                     fontSize: 15,
-                    color: Colors.green
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black
                   ),
                 ),
               ),
+              SizedBox(height: 10),
               SizedBox(
                 height: 200,
                 child: Row(
@@ -163,6 +165,7 @@ class _CommunityPageState extends State<CommunityPage> {
                                       padding: EdgeInsets.all(20),
                                       margin: EdgeInsets.only(left: 15,),
                                       decoration: BoxDecoration(
+
                                         color: Colors.black,
                                         borderRadius: BorderRadius.circular(15),
                                         image: const DecorationImage(
@@ -185,15 +188,17 @@ class _CommunityPageState extends State<CommunityPage> {
                                         padding: EdgeInsets.all(4),
 
                                         decoration: const BoxDecoration(
+
                                           borderRadius: BorderRadius.only(
                                             topRight: Radius.circular(15),
                                             bottomLeft: Radius.circular(15),
 
                                           ),
-                                          color: Colors.black
+
+                                          color: Colors.white
                                         ),
                                         child: const Icon(Icons.add,
-                                          color: Colors.white,
+                                          color: Colors.black,
                                         ),
                                       ),
                                     ),
@@ -238,12 +243,13 @@ class _CommunityPageState extends State<CommunityPage> {
                                               Center(
                                                 child: Column(
                                                   children: [
-                                                    Text(messages[index].user_name,
+
+
+                                                    ElevatedButton(onPressed: (){}, child: Text(messages[index].user_name,
                                                       style: TextStyle(
-                                                        fontWeight: FontWeight.bold
+                                                          fontWeight: FontWeight.bold
                                                       ),
-                                                    ),
-                                                    ElevatedButton(onPressed: (){}, child: Text('More'))
+                                                    ),)
                                                   ],
                                                 ),
                                               )

@@ -46,28 +46,22 @@ class _MarketPlaceScreenState extends State<MarketPlaceScreen> {
       body:  SingleChildScrollView(
         child: Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25.0),
-              child: Text(
-                "Find the Best Deal for you ❤",
-                style: TextStyle(
-                  fontSize: 56,
-                  fontFamily: 'Bebas',
-                ),
-              ),
-            ),
+            SizedBox(height: 20,),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: TextFormField(
                 decoration: InputDecoration(
+
                     prefixIcon: const Icon(Icons.search),
-                    hintText: 'Find your deal',
+                    hintText: 'Search marketplace...',
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey.shade600),
+                      borderSide: BorderSide(color: Colors.grey.shade400),
+                      borderRadius: BorderRadius.circular(40)
 
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.grey.shade600),
+                        borderRadius: BorderRadius.circular(40)
                     )
                 ),
 

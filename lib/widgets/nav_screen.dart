@@ -5,7 +5,7 @@ import 'package:artify/screens/profile_section.dart';
 import 'package:artify/widgets/constants.dart';
 import 'package:artify/widgets/loginOrRegisterPage.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/cupertino.dart';
 
 class NavScreen extends StatefulWidget {
 
@@ -69,24 +69,24 @@ class _NavScreenState extends State<NavScreen> {
 
           BottomNavigationBarItem(
 
-              icon: Icon(Icons.travel_explore_outlined),
-              activeIcon: Icon(Icons.travel_explore,color: Colors.blue,),
+              icon: Icon(CupertinoIcons.home,color: Colors.black,),
+              activeIcon: Icon(CupertinoIcons.home,color: Colors.blue,),
               label: 'Community',
 
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.add_circle_outline),
-              activeIcon: Icon(Icons.add_circle,color: Colors.blue,),
+              icon: Icon(CupertinoIcons.add,color: Colors.black,),
+              activeIcon: Icon(CupertinoIcons.add,color: Colors.blue,),
               label: 'Add'
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.currency_bitcoin_outlined),
-              activeIcon: Icon(Icons.currency_bitcoin_rounded,color: Colors.blue,),
+              icon: Icon(CupertinoIcons.shopping_cart, color: Colors.black,),
+              activeIcon: Icon(CupertinoIcons.shopping_cart,color: Colors.blue,),
               label: 'Market Place'
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.perm_identity_outlined),
-              activeIcon: Icon(Icons.person,color: Colors.blue,),
+              icon: Icon(CupertinoIcons.profile_circled, color: Colors.black,),
+              activeIcon: Icon(CupertinoIcons.profile_circled,color: Colors.blue,),
               label: 'Profile'
           ),
         ],

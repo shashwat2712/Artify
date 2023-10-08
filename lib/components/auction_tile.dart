@@ -43,31 +43,35 @@ class _AuctionTileState extends State<AuctionTile> {
             children: [
               Stack(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: widget.details.imageUrl.isEmpty ? Image.asset(
-                        'lib/assets/images/deer-in-the-forest-beautiful-sunset.jpg'): Image.network(widget.details.imageUrl,height: 200,width: double.infinity,)
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(10))
+                    ),
+                    constraints: BoxConstraints(
+                      maxHeight: 300,
+                    ),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: widget.details.imageUrl.isEmpty ? Image.asset(
+                              fit: BoxFit.cover,
+                              'lib/assets/images/deer-in-the-forest-beautiful-sunset.jpg'): Image.network(widget.details.imageUrl,width: double.infinity,fit: BoxFit.cover,)
+                      ),
                   ),
                   Positioned(
                     top: 5,
                     left: 5,
                     child: Container(
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.white.withOpacity(0.1)),
+
                           borderRadius: BorderRadius.circular(10.0),
-                          gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Colors.white.withOpacity(0.4),
-                                Colors.white.withOpacity(0.1)
-                              ]
-                          )
+                          color: Colors.grey,
+
                       ),
 
                       padding: EdgeInsets.all(10),
                         child: CountdownTimer(
-                          endWidget: Text('00:00:00'),
+                          endWidget: Text('00:00:00', style: TextStyle(color: Colors.white),),
                           endTime: widget.details.end_date.millisecondsSinceEpoch,
                           textStyle: const TextStyle(fontSize: 12, color: Colors.black),
                           onEnd: () {
@@ -138,8 +142,8 @@ class _AuctionTileState extends State<AuctionTile> {
                    ),
                     Column(
                      children: [
-                       const Text('Current Bid',style: TextStyle(color: Colors.red),),
-                       Text('\$${widget.details.basePrice}' ?? "loading",style: const TextStyle(color: Colors.red),),
+                       const Text('Current Bid',style: TextStyle(color: Colors.black, fontWeight: FontWeight.normal),),
+                       Text('\$${widget.details.basePrice}' ?? "loading",style: const TextStyle(color: Colors.blue, fontWeight: FontWeight.bold),),
 
                      ],
                    )
@@ -281,7 +285,7 @@ class _AuctionTileState extends State<AuctionTile> {
                     padding: const EdgeInsets.symmetric(vertical: 7),
                     width: 270,
                     decoration: BoxDecoration(
-                      color: Colors.grey[500],
+                      color: Colors.green[500],
                       borderRadius: BorderRadius.circular(10)
 
                     ),
