@@ -3,11 +3,14 @@ import 'dart:ui';
 import 'package:artify/components/appbar_home.dart';
 import 'package:artify/components/community_post.dart';
 import 'package:artify/components/glass_tile.dart';
+import 'package:artify/components/like_utility.dart';
 import 'package:artify/components/post.dart';
 import 'package:artify/screens/search.dart';
 import 'package:artify/widgets/community_class.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../components/auction_tile.dart';
 import '../components/bullets.dart';
@@ -25,6 +28,8 @@ class CommunityPage extends StatefulWidget {
 class _CommunityPageState extends State<CommunityPage> {
   late final Stream<List<UserClass>> _messagesStream;
   late final Stream<List<CommunityClass>> _postStream;
+
+
 
   Future<void> signUserOut() async {
     await supabase.auth.signOut();
@@ -58,6 +63,7 @@ class _CommunityPageState extends State<CommunityPage> {
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,25 +166,42 @@ class _CommunityPageState extends State<CommunityPage> {
 
                                 return Stack(
                                   children: [
+
                                     Container(
                                       width: 160,
-                                      padding: EdgeInsets.all(20),
                                       margin: EdgeInsets.only(left: 15,),
                                       decoration: BoxDecoration(
 
-                                        color: Colors.black,
+                                        color: Colors.grey[400],
                                         borderRadius: BorderRadius.circular(15),
-                                        image: const DecorationImage(
-                                          image: AssetImage(
-                                            'lib/assets/images/profile_image.jpg',
-                                          ),
-                                          fit: BoxFit.cover,
-                                          opacity: 0.7,
-                                        ),
 
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: CachedNetworkImage(
+                                          imageUrl: messages[index].profile_url,
+                                          fit: BoxFit.cover,
+                                          placeholder: (context,url)=> Container(
+                                            child: Shimmer.fromColors(
+                                              highlightColor: Colors.white,
+                                              baseColor: Colors.grey[500]!,
+                                              child: Container(
+                                                margin: const EdgeInsets.only(right : 0),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(16),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+
+
+                                        ),
                                       ),
 
                                     ),
+
+
                                     Positioned(
 
                                       top: 0,
@@ -267,19 +290,43 @@ class _CommunityPageState extends State<CommunityPage> {
                             ),
                           );
                         }
-                        else if(snapshot.hasError){
-                          return Center(
-                            child: Text(snapshot.error.toString()),
-                          );
-                        }
                         else {
-                          return const Center(
-                              child: Center(child: CircularProgressIndicator()),
+                          return Expanded(
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: 10,
+                              itemBuilder: ((BuildContext context,index){
+
+                                return Container(
+                                  width: 160,
+                                  margin: const EdgeInsets.only(left: 15,),
+                                  decoration: BoxDecoration(
+
+                                    color: Colors.black,
+                                    borderRadius: BorderRadius.circular(15),
+
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(15),
+                                    child: Shimmer.fromColors(
+                                      highlightColor: Colors.white,
+                                      baseColor: Colors.white30,
+                                      child: Container(
+                                        margin: const EdgeInsets.only(right : 0),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(16),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                );
+                              }),
+                            ),
                           );
                         }
-
-                        final messages = snapshot.data!;
-                        return CircularProgressIndicator();
 
                       }),
                     ),
@@ -304,7 +351,7 @@ class _CommunityPageState extends State<CommunityPage> {
                               padding: EdgeInsets.symmetric(horizontal: 25.0),
                               child: Column(
                                 children: [
-                                  Post(username: posts[index].users['name'], postTime: '27/12/2003', content: posts[index].description, likeCount: 'posts', commentCount: '8', imageSrc: posts[index].imageUrl, profileImg: posts[index].users['profile_url']),
+                                  Post(username: posts[index].users['name'], postTime: '27/12/2003', content: posts[index].description, likeCount: '0', commentCount: '8', imageSrc: posts[index].imageUrl, profileImg: posts[index].users['profile_url'], postId: posts[index].post_id,),
                                   SizedBox(height: 20,)
                                 ],
                               ),
@@ -312,14 +359,50 @@ class _CommunityPageState extends State<CommunityPage> {
                           }
                       );
                     }
-                    else if(snapshot.hasError){
-                      return Center(
-                        child: Text(snapshot.error.toString()),
-                      );
-                    }
                     else {
-                      return const Center(
-                          child: Text('loading')
+                      return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: 6,
+                          itemBuilder: (context,index){
+                            return Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 25.0),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 300,
+                                    width: double.infinity,
+                                    child: Container(
+
+                                      margin: EdgeInsets.only(left: 15,),
+                                      decoration: BoxDecoration(
+
+                                        color: Colors.black,
+                                        borderRadius: BorderRadius.circular(15),
+
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(15),
+                                        child: Shimmer.fromColors(
+                                          highlightColor: Colors.white,
+                                          baseColor: Colors.grey[500]!,
+                                          child: Container(
+                                            margin: const EdgeInsets.only(right : 0),
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(16),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+
+                                    ),
+                                  ),
+                                  SizedBox(height: 20,)
+                                ],
+                              ),
+                            );
+                          }
                       );
                     }
                   }

@@ -9,7 +9,6 @@ import '../components/message_tile.dart';
 class ChatRoom extends StatefulWidget {
   final Map<String,dynamic> receiverUserMap;
   final String currentUserName;
-
   final String chatRoomId;
   const ChatRoom({Key? key, required this.receiverUserMap,required this.chatRoomId, required this.currentUserName}) : super(key: key);
 
@@ -63,7 +62,7 @@ class _ChatRoomState extends State<ChatRoom> {
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         title: StreamBuilder(
-          stream: supabase.from('users').stream(primaryKey: ['uid']).eq('uid', widget.receiverUserMap['uid']),
+          stream: supabase.from('users').stream(primaryKey: ['user_id']).eq('user_id', widget.receiverUserMap['user_id']),
           builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
 
             if(snapshot.data != null){

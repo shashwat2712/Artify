@@ -1,3 +1,4 @@
+import 'package:artify/screens/search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -27,11 +28,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                    IconButton(
-                      icon: Icon(CupertinoIcons.search),
-                      color: Colors.black,
-                      onPressed: () => {func()},
-                    ),
+                    // IconButton(
+                    //   icon: Icon(CupertinoIcons.search),
+                    //   color: Colors.black,
+                    //   onPressed: () => {func()},
+                    // ),
                     SizedBox(width: 6),
                     IconButton(
                         icon: Icon(CupertinoIcons.bell_fill),
@@ -41,8 +42,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     IconButton(
                         icon: Icon(CupertinoIcons.envelope_fill),
                         color: Colors.black,
-                        onPressed: () => {func()}),
-                  ]))
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPage()));
+                        },
+                    )]))
             ],
           ),
         ),

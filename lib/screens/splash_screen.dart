@@ -3,6 +3,7 @@ import 'package:artify/widgets/constants.dart';
 import 'package:artify/widgets/loginOrRegisterPage.dart';
 import 'package:artify/widgets/nav_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -44,11 +45,17 @@ class _SplashScreenState extends State<SplashScreen> {
   }
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(
+    return Scaffold(
+      body: Scaffold(
+        backgroundColor: Color(0xFF50c879),
+        body: Center(
+            child : Container(
+                height: 200,
+                width: 200,
+                child: Lottie.asset('lib/assets/Animation - 1698350084450.json')
+            )
         ),
-      ),
+      )
     );
   }
 }

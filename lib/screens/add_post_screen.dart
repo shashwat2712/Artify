@@ -4,6 +4,7 @@ import 'package:artify/components/myListTile.dart';
 import 'package:artify/screens/add_community_post_details.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 
 import '../components/MyButton.dart';
 import '../widgets/constants.dart';
@@ -39,22 +40,31 @@ class _AddPostScreenState extends State<AddPostScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 80,),
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.all(10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Artify',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 60,
-                            fontFamily: 'Lobster',
-                            letterSpacing: 3
-                        ),),
+                      Row(
+                        children: [
+                          const Text('Artify',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 60,
+                                fontFamily: 'Lobster',
+                                letterSpacing: 3
+                            ),),
+                          Container(
+                            height: 200,
+                              width: 200,
+                              child: Lottie.asset('lib/assets/Animation - 1698350084450.json')
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
-                SizedBox(height: 200,),
+                SizedBox(height: 125,),
                 Expanded(child: Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
@@ -87,9 +97,46 @@ class _AddPostScreenState extends State<AddPostScreen> {
                         ),
 
                         SizedBox(height: 20,),
+                        MyListTile(
+                          icon: Icons.tag, text: 'Post to marketplace', endIcon: Icons.arrow_forward_ios_outlined,
+                          onTap: () async {
+                            ImagePicker imagePicker = ImagePicker();
+                            XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
 
+                            print('${file?.path}');
+
+
+                            if(file == null){
+                              return;
+                            }
+                            if(!mounted)return;
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context)=>AuctionPreview(file)
+                                )
+                            );
+                          },
+                        ),
+
+                        SizedBox(height: 20),
                          MyListTile(
-                            icon: Icons.document_scanner, text: 'Pick from gallery', endIcon: Icons.arrow_forward_ios_outlined,
+                            icon: Icons.document_scanner, text: 'Gallery for Community', endIcon: Icons.arrow_forward_ios_outlined,
+                           onTap: () async {
+                               ImagePicker imagePicker = ImagePicker();
+                               XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+                               if(file == null){
+                                 return;
+                               }
+                               if(!mounted)return;
+                               Navigator.push(context,
+                                   MaterialPageRoute(builder: (context)=>CommunityPostPreview(file)
+                                   )
+                               );
+                             },
+                        ),
+
+                        SizedBox(height: 20),
+                        MyListTile(
+                          icon: Icons.document_scanner, text: 'Gallery for marketplace', endIcon: Icons.arrow_forward_ios_outlined,
                           onTap: () async {
                             ImagePicker imagePicker = ImagePicker();
                             XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -117,10 +164,6 @@ class _AddPostScreenState extends State<AddPostScreen> {
                                   .storage
                                   .from('images')
                                   .getPublicUrl('$uid/${file.name}');
-
-                              await supabase.from('chats_ID').insert({
-
-                              });
                             }
                             catch(error){
                               if(!mounted)return;
@@ -134,37 +177,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                           },
                         ),
 
-                        SizedBox(height: 20),
-
-                        MyListTile(
-                            icon: Icons.tag, text: 'Post to marketplace', endIcon: Icons.arrow_forward_ios_outlined,
-                          onTap: () async {
-                            ImagePicker imagePicker = ImagePicker();
-                            XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
-
-                            print('${file?.path}');
-
-
-                            if(file == null){
-                              return;
-                            }
-                            if(!mounted)return;
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: (context)=>AuctionPreview(file)
-                                )
-                            );
-                          },
-                        ),
-
-                        SizedBox(height: 20),
-
-                        const MyListTile(icon: Icons.style, text: 'Style', endIcon: Icons.arrow_forward_ios_outlined),
-
                         const SizedBox(height: 40,),
-                        
-
-
-
                       ],
                     ),
                   ),

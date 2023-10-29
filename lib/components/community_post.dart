@@ -8,8 +8,13 @@ class EventTile extends StatelessWidget {
   const EventTile({Key? key,required this.details}) : super(key: key);
   final CommunityClass details;
 
+
+
   @override
   Widget build(BuildContext context) {
+    bool _loading = false;
+    int offset = 0;
+    int time = 800;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       decoration: BoxDecoration(

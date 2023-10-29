@@ -3,15 +3,19 @@ import 'dart:ui';
 import 'package:artify/components/glass_tile.dart';
 import 'package:artify/screens/product_overview.dart';
 import 'package:artify/widgets/auction_class.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:iconly/iconly.dart';
+import 'package:shimmer/shimmer.dart';
 
 
 
 import '../screens/profile_section.dart';
+import '../screens/visiting_profile_page.dart';
 import '../widgets/colors.dart';
 import '../widgets/constants.dart';
+import '../widgets/users_class.dart';
 
 class AuctionTile extends StatefulWidget {
   const AuctionTile({Key? key, required this.details}) : super(key: key);
@@ -52,10 +56,42 @@ class _AuctionTileState extends State<AuctionTile> {
                       maxHeight: 300,
                     ),
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: widget.details.imageUrl.isEmpty ? Image.asset(
-                              fit: BoxFit.cover,
-                              'lib/assets/images/deer-in-the-forest-beautiful-sunset.jpg'): Image.network(widget.details.imageUrl,width: double.infinity,fit: BoxFit.cover,)
+                        borderRadius: const BorderRadius.all(Radius.circular(12)),
+                        // child: Image(
+                        //   image: NetworkImage(widget.imageSrc),
+                        //   fit: BoxFit.cover,)
+                        child: CachedNetworkImage(
+                          imageUrl: widget.details.imageUrl,
+                          fit: BoxFit.cover,
+                          placeholder:(context,url)=> ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Shimmer.fromColors(
+                              highlightColor: Colors.white,
+                              baseColor: Colors.white12,
+                              child: Container(
+                                margin: const EdgeInsets.only(right : 0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                            ),
+                          ),
+                          errorWidget: (context,url,error)=> ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Shimmer.fromColors(
+                              highlightColor: Colors.white,
+                              baseColor: Colors.white12,
+                              child: Container(
+                                margin: const EdgeInsets.only(right : 0),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                   ),
                   Positioned(
@@ -100,12 +136,26 @@ class _AuctionTileState extends State<AuctionTile> {
                Row(
                  children: [
                    InkWell(
-                     onTap: () {
+                     onTap: () async{
+                       Map<String,dynamic> authorDetails = {};
+                       try{
+                         authorDetails = await supabase
+                            .from('users')
+                            .select('*')
+                            .eq('user_id', widget.details.creator_id).single() as Map<String,dynamic>;
+                      }
+                      catch(error){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(error.toString())));
+                      }
+                      UserClass authorData = UserClass.fromMap(map: authorDetails);
+
+                      if(!mounted)return;
                        Navigator.push(
                            context,
                            MaterialPageRoute(
                              builder: (context) =>
-                             const ProfileSection(),
+                              VisitingProfileSection(authorData: authorData,),
                            ));
                      },
                      child: const CircleAvatar(

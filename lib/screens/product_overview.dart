@@ -26,6 +26,10 @@ class _AuctionDescriptionScreenState extends State<AuctionDescriptionScreen> {
   late final Stream<List<BidClass>> _messagesStream;
   Map value = {};
 
+  TextEditingController customBidController = TextEditingController();
+
+
+
   List<Instructions>instructions =[
   Instructions(value: 'Total Bids', key: '3948'),
   Instructions(value: 'Minimum bid interval', key: '2736'),
@@ -57,7 +61,47 @@ class _AuctionDescriptionScreenState extends State<AuctionDescriptionScreen> {
   bool isLive() {
     return widget.details.end_date.compareTo(DateTime.now()) > 0;
   }
+  Future<void> createCustomBid(String customBidString) async {
 
+    // if(!isLive())return;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const Text('Placing your Bid'),
+      backgroundColor: Colors.green[500],
+    ));
+    try {
+      value = await supabase
+          .from('bids')
+          .select()
+          .eq('auction_id', widget.details.auction_id)
+          .order('amount')
+          .maybeSingle()
+          .limit(1) ??
+          {'amount': widget.details.basePrice};
+      int customBid = int.parse(customBidString);
+      if(customBid > widget.details.min_bid_interval + value['amount']){
+        await supabase.from('bids').insert({
+          'amount': customBid,
+          'bid_by': supabase.auth.currentUser!.id,
+          'auction_id': widget.details.auction_id
+        });
+      }
+      else{
+        if(!mounted)return;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const Text('Invalid Bid !!'),
+          backgroundColor: Theme.of(context).colorScheme.error,
+        ));
+      }
+
+
+
+    } catch (error) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Error Occurred please retry : $error'),
+        backgroundColor: Theme.of(context).colorScheme.error,
+      ));
+    }
+  }
   Future<void> createBid() async {
     // if(!isLive())return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -124,6 +168,7 @@ class _AuctionDescriptionScreenState extends State<AuctionDescriptionScreen> {
                     final GlobalKey<SlideActionState> _key = GlobalKey();
 
                     return SlideAction(
+                      outerColor: Colors.grey,
                       key: _key,
                       onSubmit: () {
                         _key.currentState?.reset();
@@ -139,40 +184,64 @@ class _AuctionDescriptionScreenState extends State<AuctionDescriptionScreen> {
                             showModalBottomSheet(
                                 context: context,
                                 backgroundColor:
-                                    Theme.of(context).secondaryHeaderColor,
+                                    Colors.black,
                                 builder: (context) => Column(
                                       children: [
                                         SizedBox(
                                           height: 50,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15.0),
-                                          child: TextFormField(
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                                labelText:
-                                                    'Enter the custom amount',
-                                                prefixIcon: Icon(Icons
-                                                    .currency_bitcoin_outlined),
-                                                border: OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: Padding(
+                                                padding: const EdgeInsets.all(5.0),
+                                                child: TextFormField(
+                                                  style: TextStyle(
+                                                    color: Colors.white
+                                                  ),
+                                                  keyboardType: TextInputType.number,
+                                                  controller: customBidController,
+                                                  decoration: InputDecoration(
+                                                      labelText:
+                                                      'Enter the custom amount',
+                                                      prefixIcon: Icon(Icons
+                                                          .currency_bitcoin_outlined),
+                                                      border: OutlineInputBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                      ),
+                                                      floatingLabelStyle: TextStyle(
+                                                          color: Colors.grey),
+                                                      focusedBorder:
+                                                      OutlineInputBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            100),
+                                                        borderSide: BorderSide(
+                                                            width: 2,
+                                                            color: Colors.white),
+                                                      )),
+
+
+                                                  obscureText: false,
                                                 ),
-                                                floatingLabelStyle: TextStyle(
-                                                    color: Colors.grey),
-                                                focusedBorder:
-                                                    OutlineInputBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          100),
-                                                  borderSide: BorderSide(
-                                                      width: 2,
-                                                      color: Colors.black87),
-                                                )),
-                                          ),
-                                        )
+                                              ),
+                                            ),
+                                            IconButton(
+                                                onPressed: (){
+                                                  createCustomBid(customBidController.text.toString());
+                                                  Navigator.pop(context);
+                                                  customBidController.clear();
+                                                },
+                                                icon: const Icon(Icons.send)),
+
+
+
+
+                                          ],
+                                        ),
+
                                       ],
                                     ));
                           },

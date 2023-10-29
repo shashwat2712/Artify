@@ -59,7 +59,7 @@ class _CommunityPostPreviewState extends State<CommunityPostPreview> {
         'title': titleController.text.trim().toString(),
         'description': descriptionController.text.trim().toString(),
         'creator_id' : supabase.auth.currentUser?.id,
-        'genre': 'painting',
+        'genre': styleChoosed,
         'likes_count' : 23
       });
     }

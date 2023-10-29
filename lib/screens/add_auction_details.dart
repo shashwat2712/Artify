@@ -71,7 +71,7 @@ class _AuctionPreviewState extends State<AuctionPreview> {
         'description': descriptionController.text.trim().toString(),
         'base_price': double.parse(basePriceController.text.trim().toString()),
         'creator_id' : supabase.auth.currentUser?.id,
-        'type': 'painting'
+        'type': styleChoosed
       });
     }
     catch(error){
@@ -137,16 +137,14 @@ class _AuctionPreviewState extends State<AuctionPreview> {
                       icon: Icons.currency_rupee,
                       controller: basePriceController),
                   SizedBox(height: 30.0),
-                  NewTextField(
-                      labelText: 'Durations',
-                      icon: Icons.timelapse,
-                      controller: durationController),
-                  const SizedBox(height: 30.0),
+                  // NewTextField(
+                  //     labelText: 'Durations',
+                  //     icon: Icons.timelapse,
+                  //     controller: durationController),
                   NewTextField(
                       labelText: 'Description',
                       icon: Icons.description,
                       controller: descriptionController),
-                  SizedBox(height: 30.0),
                   // Container(
                   //   // padding: const EdgeInsets.symmetric(horizontal: 4),
                   //   decoration: BoxDecoration(
@@ -185,32 +183,87 @@ class _AuctionPreviewState extends State<AuctionPreview> {
                       borderRadius: BorderRadius.circular(100),
                       border: Border.all(color: Colors.grey, width: 1),
                     ),
-                    child: DropdownButton(
-                      padding: EdgeInsets.all(8),
-                      hint: const Text('Select Style: '),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: Icon(Icons.timelapse),
+                        ),
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: DropdownButton(
+                            padding: EdgeInsets.all(8),
+                            hint: const Text('Select Duration: '),
 
-                      dropdownColor: Colors.grey,
-                      icon: const Icon(Icons.arrow_circle_down_rounded),
-                      iconSize: 36,
-                      isExpanded: true,
+                            dropdownColor: Colors.grey,
+                            icon: const Icon(Icons.arrow_circle_down_rounded),
+                            iconSize: 36,
+                            isExpanded: true,
 
-                      underline: const SizedBox(),
-                      // style:
-                      //     const TextStyle(color: Colors.black, fontSize: 22),
-                      value: styleChoosed,
-                      onChanged: (newValue) {
-                        setState(() {
-                          durationChoosed = newValue.toString();
-                        });
-                      },
-                      items: durationList.map((valueItem) {
-                        return DropdownMenuItem(
-                          value: valueItem,
-                          child: Text(valueItem),
-                        );
-                      }).toList(),
+                            underline: const SizedBox(),
+                            // style:
+                            //     const TextStyle(color: Colors.black, fontSize: 22),
+                            value: styleChoosed,
+                            onChanged: (newValue) {
+                              setState(() {
+                                durationChoosed = newValue.toString();
+                              });
+                            },
+                            items: durationList.map((valueItem) {
+                              return DropdownMenuItem(
+                                value: valueItem,
+                                child: Text(valueItem),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                  SizedBox(height: 30.0),
+                  Container(
+                    // padding: const EdgeInsets.symmetric(horizontal: 4),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      border: Border.all(color: Colors.grey, width: 1),
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4),
+                          child: Icon(Icons.style),
+                        ),
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: DropdownButton(
+                            padding: EdgeInsets.all(8),
+                            hint: const Text('Select Style: '),
+
+                            dropdownColor: Colors.grey,
+                            icon: const Icon(Icons.arrow_circle_down_rounded),
+                            iconSize: 36,
+                            isExpanded: true,
+                            underline: const SizedBox(),
+                            // style:
+                            //     const TextStyle(color: Colors.black, fontSize: 22),
+                            value: styleChoosed,
+                            onChanged: (newValue) {
+                              setState(() {
+                                styleChoosed = newValue.toString();
+                              });
+                            },
+                            items: styleList.map((valueItem) {
+                              return DropdownMenuItem(
+                                value: valueItem,
+                                child: Text(valueItem),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
                 ],
               ),
             ),
